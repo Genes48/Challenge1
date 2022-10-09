@@ -3,7 +3,7 @@ const { DataTypes } = require('sequelize');
 // Luego le injectamos la conexion a sequelize.
 module.exports = (sequelize) => {
   // defino el modelo
-  sequelize.define('entry', {
+  sequelize.define('income', {
     concept: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -15,7 +15,7 @@ module.exports = (sequelize) => {
         primaryKey: true,
     },
     amount: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.FLOAT,
         allowNull: false,
       },
     date: {
@@ -23,7 +23,7 @@ module.exports = (sequelize) => {
         allowNull: false,
       },
     type: {
-        type: DataTypes.STRING,
+        type: DataTypes.ENUM("Income", "Outcome"),
         allowNull: false,
       },
   });
