@@ -1,5 +1,5 @@
 import axios from "axios";
-import { GET_OPERATIONS, CREATE_OPERATION, MODIFY_OPERATION, DELETE_OPERATION, GET_BALANCE } from "./types";
+import { GET_OPERATIONS, CREATE_OPERATION, MODIFY_OPERATION, DELETE_OPERATION, GET_BALANCE, FILTER_TYPE } from "./types";
 
 export function getOperations(){
     return async function (dispatch){
@@ -11,6 +11,10 @@ export function getOperations(){
             console.log(e.message)
         }
     }
+}
+
+export function filterType(payload){
+    return {type: FILTER_TYPE, payload}
 }
 
 export function createOperation(payload){

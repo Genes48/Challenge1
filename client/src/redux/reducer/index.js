@@ -1,4 +1,4 @@
-import { GET_OPERATIONS, CREATE_OPERATION, MODIFY_OPERATION, DELETE_OPERATION, GET_BALANCE } from "../actions/types";
+import { GET_OPERATIONS, CREATE_OPERATION, MODIFY_OPERATION, DELETE_OPERATION, GET_BALANCE, FILTER_TYPE } from "../actions/types";
 
 const initialState={
     operations: [],
@@ -24,6 +24,21 @@ function rootReducer(state=initialState, {type, payload}){
             operations: ope,
             operationsBack: ope
         }
+        case FILTER_TYPE:
+            const allOp=state.operationsBack
+            let opeType=[]
+            if(payload==="All"){
+                opeType=allOp
+            }
+            else{opeType=allOp.filter(e=>e.type===payload)}
+            if(opeType.length===0) { alert(`You have no ${payload}s`)
+            return{
+                ...state,
+            }}
+            return{
+                ...state,
+                operations: opeType
+            }
         case CREATE_OPERATION: return{
             ...state,
         }
