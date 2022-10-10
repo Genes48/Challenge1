@@ -1,5 +1,5 @@
 import axios from "axios";
-import { GET_OPERATIONS, CREATE_OPERATION, MODIFY_OPERATION, DELETE_OPERATION } from "./types";
+import { GET_OPERATIONS, CREATE_OPERATION, MODIFY_OPERATION, DELETE_OPERATION, GET_BALANCE } from "./types";
 
 export function getOperations(){
     return async function (dispatch){
@@ -47,4 +47,8 @@ export function deleteOperation(id){
             console.log(e.message)
         }
     }
+}
+
+export function getBalance(){
+    return {type: GET_BALANCE}
 }
