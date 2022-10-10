@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { createOperation } from '../../redux/actions';
 
 export default function Form() {
     const dispatch = useDispatch()
@@ -11,14 +12,14 @@ export default function Form() {
         amount:"",
         date:"",
         type:"",
-        category:""
+        /* category:"" */
     })
     const [error, setError] = useState({
         concept:"",
         amount:"",
         date:"",
         type:"",
-        category:""
+        /* category:"" */
     })
 
     function handleChange(e){
@@ -33,6 +34,26 @@ export default function Form() {
         setInput({
             ...input,
             type:e.target.value
+        })
+    }
+    function handleCheck(e){
+        if(e.target.checked){
+            setInput({
+                ...input,
+                type:e.target.value
+            })
+        }
+    }
+    function handleSubmit(e){
+        e.preventDefault();
+        dispatch(createOperation(input))
+        alert("Operation added")
+        setInput({
+            concept:"",
+            amount:"",
+            date:"",
+            type:"",
+            /* category:"" */
         })
     }
 
@@ -101,13 +122,11 @@ export default function Form() {
             </div>
             <div>
                 <label>Type: </label>
-                <select onChange={(e)=>{handleSelect(e)}}>
-                    <option value="Income">Income</option>
-                    <option value="Outcome">Outcome</option>
-                </select>
+                <input type="radio" name="type" value="Income" onChange={(e)=>{handleCheck(e)}}/>Income
+                <input type="radio" name="type" value="Outcome" onChange={(e)=>{handleCheck(e)}}/>Outcome
             </div>
             <div>
-            <button disabled={disabled} type="submit" >Create Operation</button>
+            <button disabled={disabled} type="submit" onClick={(e)=>handleSubmit(e)}>Create Operation</button>
             </div>
          </form>
     </div>

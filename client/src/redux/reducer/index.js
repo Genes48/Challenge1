@@ -9,10 +9,20 @@ const initialState={
 
 function rootReducer(state=initialState, {type, payload}){
     switch(type){
-        case GET_OPERATIONS: return{
+        case GET_OPERATIONS: 
+        let ope = payload.sort(function(a,b){
+            if(a.date<b.date){
+                return 1
+            }
+            if(a.date>b.date){
+                return -1
+            }
+            return 0
+        })
+        return{
             ...state,
-            operations: payload,
-            operationsBack: payload
+            operations: ope,
+            operationsBack: ope
         }
         case CREATE_OPERATION: return{
             ...state,
@@ -25,12 +35,12 @@ function rootReducer(state=initialState, {type, payload}){
         }
         case GET_BALANCE: 
             let bal = 0
-            for(let i=0; i<state.operations.length; i++){
-                if(state.operations[i].type==="Income"){
-                bal=bal+state.operations[i].amount
+            for(let i=0; i<state.operationsBack.length; i++){
+                if(state.operationsBack[i].type==="Income"){
+                bal=bal+state.operationsBack[i].amount
                 }
                 else{
-                bal=bal-state.operations[i].amount
+                bal=bal-state.operationsBack[i].amount
                 }
             }
         return{
