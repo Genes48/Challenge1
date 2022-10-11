@@ -12,6 +12,7 @@ function App() {
         <Route exact path="/" component = {Home}/>
         <Route path="/abm" component = {ABM}/>
         <Route path="/form" component = {Form}/>
+        <Route path="/form/:id" component = {Form}/>
       </Switch>
     </div>
     </BrowserRouter>

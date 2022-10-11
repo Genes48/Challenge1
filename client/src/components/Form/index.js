@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { createOperation } from '../../redux/actions';
 
 export default function Form() {
+    const { id } = useParams()
     const dispatch = useDispatch()
 
     const[disabled, setDisabled]=useState(true)

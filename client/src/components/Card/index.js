@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function Card({conc, amo, id, dat, type}) {
+export default function Card({conc, amo, dat, type}) {
   return (
     <div>
         <h3>{conc}</h3>

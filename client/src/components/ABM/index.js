@@ -2,7 +2,7 @@ import React , { useEffect} from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
 import { getOperations, filterType } from "../../redux/actions";
-import Card from "../Card"
+import CardABM from "../CardABM"
 
 export default function ABM() {
 
@@ -35,7 +35,7 @@ export default function ABM() {
       {operations.length?
         operations.map(a=>{
           return(
-            <Card conc={a.concept} amo={a.amount} id={a.id} dat={a.date} type={a.type} key={a.id}></Card>
+            <CardABM conc={a.concept} amo={a.amount} id={a.id} dat={a.date} type={a.type} key={a.id}></CardABM>
           )
         }):<div>
           <h2>Loading...</h2>

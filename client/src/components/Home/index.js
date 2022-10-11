@@ -33,7 +33,7 @@ export default function Home() {
         {lastOp.length?
         lastOp.map(a=>{
           return(
-            <Card conc={a.concept} amo={a.amount} id={a.id} dat={a.date} type={a.type} key={a.id}></Card>
+            <Card conc={a.concept} amo={a.amount} dat={a.date} type={a.type} key={a.id}></Card>
           )
         }):<div>
           <h2>Loading...</h2>
