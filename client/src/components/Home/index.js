@@ -3,7 +3,8 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from 'react-router-dom';
 import { getBalance, getOperations } from "../../redux/actions";
-import Card from "../Card"
+import Card from "../Card";
+import ListGroup from 'react-bootstrap/ListGroup';
 
 export default function Home() {
 
@@ -31,11 +32,15 @@ export default function Home() {
         <h2>Balance: ${balance}</h2>
         <Link to="/abm"><button>ABM</button></Link>
         {lastOp.length?
-        lastOp.map(a=>{
+        <ListGroup as="ol">{lastOp.map(a=>{
           return(
-            <Card conc={a.concept} amo={a.amount} dat={a.date} type={a.type} key={a.id}></Card>
+            <ListGroup.Item 
+            as="li"
+            className="d-flex justify-content-between align-items-start"
+            key={a.id}><Card conc={a.concept} amo={a.amount} dat={a.date} type={a.type} key={a.id}></Card></ListGroup.Item>
           )
-        }):<div>
+        })}</ListGroup>
+        :<div>
           <h2>Loading...</h2>
           </div>}
     </div>

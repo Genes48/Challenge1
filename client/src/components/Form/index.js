@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { Link, useParams } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import { createOperation } from '../../redux/actions';
 
 export default function Form() {
@@ -126,9 +126,12 @@ export default function Form() {
                 <input type="radio" name="type" value="Income" onChange={(e)=>{handleCheck(e)}}/>Income
                 <input type="radio" name="type" value="Outcome" onChange={(e)=>{handleCheck(e)}}/>Outcome
             </div>
+            {id?<div>
+            <button disabled={disabled} type="submit">Modify Operation</button>
+            </div>:
             <div>
             <button disabled={disabled} type="submit" onClick={(e)=>handleSubmit(e)}>Create Operation</button>
-            </div>
+            </div>}
          </form>
     </div>
   )

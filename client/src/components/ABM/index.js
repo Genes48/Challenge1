@@ -2,7 +2,9 @@ import React , { useEffect} from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
 import { getOperations, filterType } from "../../redux/actions";
-import CardABM from "../CardABM"
+import CardABM from "../CardABM";
+import ListGroup from 'react-bootstrap/ListGroup';
+
 
 export default function ABM() {
 
@@ -33,11 +35,15 @@ export default function ABM() {
       </div>
       <div>All operations</div>
       {operations.length?
-        operations.map(a=>{
+        <ListGroup as="ol">{operations.map(a=>{
           return(
-            <CardABM conc={a.concept} amo={a.amount} id={a.id} dat={a.date} type={a.type} key={a.id}></CardABM>
+            <ListGroup.Item 
+            as="li"
+            className="d-flex justify-content-between align-items-start"
+            key={a.id}><CardABM conc={a.concept} amo={a.amount} dat={a.date} id={a.id} type={a.type} key={a.id}></CardABM></ListGroup.Item>
           )
-        }):<div>
+        })}</ListGroup>
+        :<div>
           <h2>Loading...</h2>
           </div>}
     </div>
