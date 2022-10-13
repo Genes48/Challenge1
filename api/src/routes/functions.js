@@ -50,6 +50,19 @@ const createIncome = async function(concept, amount, date, type /*, category */)
     }
 }
 
+const createCategories = async function(categories){
+  try{
+  for(let i=0; i<categories.length; i++){
+  var category = await Category.create({
+          name: categories[i],
+      })
+    }
+    res.send("Categories created")}
+  catch(e){
+      console.log(e)
+  }
+}
+
 const modifyIncome = async function(id, concept, amount, date, category){
 try{
     if (concept) {
