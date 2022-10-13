@@ -1,18 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { createOperation } from '../../redux/actions';
+import { useDispatch, useSelector } from 'react-redux';
+import { createOperation, modifyOperation, getOperationsiD, deleteOperation } from '../../redux/actions';
 
 export default function Form() {
-    const { id } = useParams()
+    const { id, concept, amount, date, type } = useParams()
+    
     const dispatch = useDispatch()
 
     const[disabled, setDisabled]=useState(true)
+    const[disables, setDisables]=useState(true)
+    /* useEffect(()=>{
+        if(id){dispatch(getOperationsiD(id))}
+      },[dispatch, id]) */
+
     const [input, setInput] = useState({
-        concept:"",
-        amount:"",
-        date:"",
-        type:"",
+        concept:id?concept:"",
+        amount:id?amount:"",
+        date:id?date:"",
+        type:id?type:"",
         /* category:"" */
     })
     const [error, setError] = useState({
@@ -22,7 +28,33 @@ export default function Form() {
         type:"",
         /* category:"" */
     })
+    /* var detail = useSelector(state=>state.operation) */
 
+      
+    useEffect(()=>{
+        if(input.concept!==""&& input.amount!==""&& input.date!==""&& input.type!==""&&           
+        error.concept===""&&
+        error.amount===""&&
+        error.date===""){
+            setDisabled(false)
+        }
+        else{
+            setDisabled(true)
+        }
+    }, [input, error])
+    useEffect(()=>{
+        if(input.concept!==""&& input.amount!==""&& input.date!==""&&           
+        error.concept===""&&
+        error.amount===""&&
+        error.date===""){
+            setDisables(false)
+        }
+        else{
+            setDisables(true)
+        }
+    }, [input, error])
+
+    
     function handleChange(e){
         e.preventDefault();
         setInput({
@@ -45,10 +77,27 @@ export default function Form() {
             })
         }
     }
+    function handleClick(e){
+        e.preventDefault();
+        deleteOperation(id)
+        alert("Operation deleted")
+    }
     function handleSubmit(e){
         e.preventDefault();
         dispatch(createOperation(input))
         alert("Operation added")
+        setInput({
+            concept:"",
+            amount:"",
+            date:"",
+            type:"",
+            /* category:"" */
+        })
+    }
+    function handleSubmit2(e){
+        e.preventDefault();
+        dispatch(modifyOperation(id, input))
+        alert("Operation modified")
         setInput({
             concept:"",
             amount:"",
@@ -89,22 +138,13 @@ export default function Form() {
         }
     }
 
-    useEffect(()=>{
-        if(input.concept!==""&& input.amount!==""&& input.date!==""&& input.type!==""&&           
-        error.concept===""&&
-        error.amount===""&&
-        error.date===""){
-            setDisabled(false)
-        }
-        else{
-            setDisabled(true)
-        }
-    }, [input, error])
-
 
   return (
     <div>
          <Link to="/abm"><button>Cancel</button></Link>
+         {id?<div>
+            <button onClick={(e)=>handleClick(e)}>Delete Operation</button>
+            </div>:<span></span>}
          <form>
             <div>
                 <label>Concept: </label>
@@ -121,13 +161,14 @@ export default function Form() {
                 <input type="date" value={input.date} name="date" onChange={(e)=>{handleChange(e);validateDate(e)}}/>
                 <div>{error.date===""?<span></span>:<span>{error.date}</span>}</div>
             </div>
+            {id?<span></span>:
             <div>
                 <label>Type: </label>
                 <input type="radio" name="type" value="Income" onChange={(e)=>{handleCheck(e)}}/>Income
                 <input type="radio" name="type" value="Outcome" onChange={(e)=>{handleCheck(e)}}/>Outcome
-            </div>
+            </div>}
             {id?<div>
-            <button disabled={disabled} type="submit">Modify Operation</button>
+            <button disabled={disables} type="submit" onClick={(e)=>handleSubmit2(e)}>Modify Operation</button>
             </div>:
             <div>
             <button disabled={disabled} type="submit" onClick={(e)=>handleSubmit(e)}>Create Operation</button>

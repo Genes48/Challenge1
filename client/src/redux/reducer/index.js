@@ -1,9 +1,10 @@
-import { GET_OPERATIONS, CREATE_OPERATION, MODIFY_OPERATION, DELETE_OPERATION, GET_BALANCE, FILTER_TYPE } from "../actions/types";
+import { GET_OPERATIONS, GET_OPERATION, CREATE_OPERATION, MODIFY_OPERATION, DELETE_OPERATION, GET_BALANCE, FILTER_TYPE } from "../actions/types";
 
 const initialState={
     operations: [],
     operationsBack: [],
     categories: [],
+    operation:[],
     balance: 0
 }
 
@@ -23,6 +24,10 @@ function rootReducer(state=initialState, {type, payload}){
             ...state,
             operations: ope,
             operationsBack: ope
+        }
+        case GET_OPERATION: return{
+            ...state,
+            operation: payload
         }
         case FILTER_TYPE:
             const allOp=state.operationsBack

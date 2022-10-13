@@ -1,11 +1,23 @@
 import axios from "axios";
-import { GET_OPERATIONS, CREATE_OPERATION, MODIFY_OPERATION, DELETE_OPERATION, GET_BALANCE, FILTER_TYPE } from "./types";
+import { GET_OPERATIONS, GET_OPERATION, CREATE_OPERATION, MODIFY_OPERATION, DELETE_OPERATION, GET_BALANCE, FILTER_TYPE } from "./types";
 
 export function getOperations(){
     return async function (dispatch){
         try{
             var response = await axios.get("http://localhost:3003/incomes");
             return dispatch({type:GET_OPERATIONS, payload: response.data})
+        }
+        catch(e){
+            console.log(e.message)
+        }
+    }
+}
+
+export function getOperationsiD(id){
+    return async function (dispatch){
+        try{
+            var response = await axios.get(`http://localhost:3003/incomes/${id}`);
+            return dispatch({type:GET_OPERATION, payload: response.data})
         }
         catch(e){
             console.log(e.message)

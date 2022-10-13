@@ -10,7 +10,7 @@ export default function Card({conc, amo, id, dat, type}) {
     <div className="ms-2 me-auto">
         <div className="fw-bold"><h3>{conc}            ${amo}</h3></div>
         {type}                {d.getDate()}/{d.getMonth()+1}/{d.getFullYear()}
-        <Link to={`/form/${id}`}><button>Modify or Delete operation</button></Link>
+        <Link to={`/form/${id}/${conc}/${amo}/${dat}/${type}`}><button>Modify or Delete operation</button></Link>
     </div>
   )
 }
