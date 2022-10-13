@@ -4,21 +4,23 @@ import { useDispatch, useSelector } from 'react-redux';
 import { createOperation, modifyOperation, getOperationsiD, deleteOperation } from '../../redux/actions';
 
 export default function Form() {
-    const { id, concept, amount, date, type } = useParams()
+    const { id } = useParams()
     
     const dispatch = useDispatch()
+    var detail = useSelector((state) => state.operation)
+    console.log("soy el detail", detail)
 
     const[disabled, setDisabled]=useState(true)
     const[disables, setDisables]=useState(true)
-    /* useEffect(()=>{
-        if(id){dispatch(getOperationsiD(id))}
-      },[dispatch, id]) */
+     useEffect(()=>{
+        dispatch(getOperationsiD(id))
+      },[dispatch, id]) 
 
     const [input, setInput] = useState({
-        concept:id?concept:"",
-        amount:id?amount:"",
-        date:id?date:"",
-        type:id?type:"",
+        concept:"",
+        amount:"",
+        date:"",
+        type:"",
         /* category:"" */
     })
     const [error, setError] = useState({
@@ -77,9 +79,8 @@ export default function Form() {
             })
         }
     }
-    function handleClick(e){
-        e.preventDefault();
-        deleteOperation(id)
+    function handleClick(id){
+        dispatch(deleteOperation(id))
         alert("Operation deleted")
     }
     function handleSubmit(e){
@@ -143,21 +144,24 @@ export default function Form() {
     <div>
          <Link to="/abm"><button>Cancel</button></Link>
          {id?<div>
-            <button onClick={(e)=>handleClick(e)}>Delete Operation</button>
+            <button onClick={()=>handleClick(id)}>Delete Operation</button>
             </div>:<span></span>}
          <form>
             <div>
-                <label>Concept: </label>
+            {id?<div><span>Previous Concept: {detail.concept}</span></div>:<span></span>}
+            {id?<label>New Concept: </label>:<label>Concept: </label>}
                 <input type="text" value={input.concept} name="concept" onChange={(e)=>{handleChange(e);validateConcept(e)}}/>
                 <div>{error.concept===""?<span></span>:<span>{error.concept}</span>}</div>
             </div>
             <div>
-                <label>Amount: </label>
+            {id?<div><span>Previous Amount: {detail.amount}</span></div>:<span></span>}
+            {id?<label>New Amount: </label>:<label>Amount: </label>}
                 <input type="number" value={input.amount} name="amount" onChange={(e)=>{handleChange(e);validateAmount(e)}}/>
                 <div>{error.amount===""?<span></span>:<span>{error.amount}</span>}</div>
             </div>
             <div>
-                <label>Date: </label>
+                {id?<div><span>Previous Date: {detail.date}</span></div>:<span></span>}
+                {id?<label>New Date: </label>:<label>Date: </label>}
                 <input type="date" value={input.date} name="date" onChange={(e)=>{handleChange(e);validateDate(e)}}/>
                 <div>{error.date===""?<span></span>:<span>{error.date}</span>}</div>
             </div>

@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getOperations, filterType } from "../../redux/actions";
 import CardABM from "../CardABM";
 import ListGroup from 'react-bootstrap/ListGroup';
+import CardGroup from 'react-bootstrap/CardGroup';
 
 
 export default function ABM() {
@@ -34,15 +35,16 @@ export default function ABM() {
         </select>
       </div>
       <div>All operations</div>
+      <br></br>
       {operations.length?
-        <ListGroup as="ol">{operations.map(a=>{
+        <CardGroup>{operations.map(a=>{
           return(
             <ListGroup.Item 
             as="li"
             className="d-flex justify-content-between align-items-start"
             key={a.id}><CardABM conc={a.concept} amo={a.amount} dat={a.date} id={a.id} type={a.type} key={a.id}></CardABM></ListGroup.Item>
           )
-        })}</ListGroup>
+        })}</CardGroup>
         :<div>
           <h2>Loading...</h2>
           </div>}

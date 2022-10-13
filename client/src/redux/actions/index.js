@@ -57,7 +57,7 @@ export function deleteOperation(id){
     return async function(dispatch){
         try{
             var response = await axios.delete(`http://localhost:3003/incomes/${id}`)
-            return dispatch({type:DELETE_OPERATION})
+            return response
         }
         catch(e){
             console.log(e.message)
