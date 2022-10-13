@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const { getIncomes, createIncome, deleteIncome, modifyIncome } = require ("./functions")
+const { getIncomes, getIncomebyId, createIncome, deleteIncome, modifyIncome } = require ("./functions")
 const { Income, Category } = require("../db")
 
 const router = Router();
@@ -8,6 +8,17 @@ router.get("/incomes", async function(req, res){
     try{
         var inc = await getIncomes()
         res.json(inc)
+    }
+    catch(e){
+        res.status(404).json(e)
+    }
+})
+
+router.get("/incomes/:id", async function(req, res){
+    let {id}=req.params
+    try{
+        var op = await getIncomebyId(id)
+        res.json(op)
     }
     catch(e){
         res.status(404).json(e)

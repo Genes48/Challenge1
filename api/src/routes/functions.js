@@ -17,6 +17,24 @@ const getIncomes = async function(){
     }
 }
 
+const getIncomebyId = async function(id){
+  try{
+    var ope= await Income.findByPk(id/* , {
+       include:{
+            model: Category,
+            attributes: ["name"],
+            through:{
+                attributes: [],
+            }
+        } 
+  } */)
+  return (ope)
+  }catch(e){
+        console.log(e.message)
+        res.json(e)
+    }
+}
+
 const createIncome = async function(concept, amount, date, type /*, category */){
     try{    
     var income = await Income.create({
@@ -102,4 +120,4 @@ const deleteIncome = async function(id){
     }
 }
 
-module.exports = {getIncomes, createIncome, modifyIncome, deleteIncome}
+module.exports = {getIncomes, getIncomebyId, createIncome, modifyIncome, deleteIncome}
