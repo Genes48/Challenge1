@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
 import { getOperations, filterType } from "../../redux/actions";
 import CardABM from "../CardABM";
+import Button from 'react-bootstrap/Button';
 import ListGroup from 'react-bootstrap/ListGroup';
 import CardGroup from 'react-bootstrap/CardGroup';
 
@@ -24,29 +25,35 @@ export default function ABM() {
   return (
     <div>
       <h1>ABM</h1>
-      <Link to="/"><button>Back to Home</button></Link>
-      <Link to="/form"><button>Add new operation</button></Link>
+      <div class="container">
+      <div class="col justify-content-around">
+      <Link to="/"><Button class="col-4" variant="outline-light">Back to Home</Button></Link>
+      <Link to="/form"><Button class="col-4" variant="outline-light">Add new operation</Button></Link>
+      </div>
+      </div>
       <div>
-        <span>Filter by type: </span>
+        <h4>Filter by type:   
+          <h5>
         <select onChange={e=>handleFilterTypes(e)}>
           <option value="All">All</option>
           <option value="Income">Income</option>
           <option value="Outcome">Outcome</option>
         </select>
+        </h5>
+        </h4>
       </div>
-      <div>All operations</div>
+      <h3>All operations</h3>
       <br></br>
       {operations.length?
-        <CardGroup>{operations.map(a=>{
+        <CardGroup class="container">
+          <div class="row justify-content-start">{operations.map(a=>{
           return(
-            <ListGroup.Item 
-            as="li"
-            className="d-flex justify-content-between align-items-start"
-            key={a.id}><CardABM conc={a.concept} amo={a.amount} dat={a.date} id={a.id} type={a.type} key={a.id}></CardABM></ListGroup.Item>
+            <div class="col-4"
+            key={a.id}><CardABM conc={a.concept} amo={a.amount} dat={a.date} id={a.id} type={a.type} key={a.id}></CardABM></div>
           )
-        })}</CardGroup>
+        })}</div></CardGroup>
         :<div>
-          <h2>Loading...</h2>
+          <h2>You don´t have operations yet</h2>
           </div>}
     </div>
   )
