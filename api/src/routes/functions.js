@@ -3,13 +3,13 @@ const { Income, Category } = require('../db.js')
 const getIncomes = async function(){
     try{
     return await Income.findAll({
-        /* include:{
+         include:{
             model: Category,
             attributes: ["name"],
             through:{
                 attributes: [],
             }
-        } */
+        } 
     })}
     catch(e){
         console.log(e.message)
@@ -17,9 +17,19 @@ const getIncomes = async function(){
     }
 }
 
+const getCategories = async function(){
+  try{
+  return await Category.findAll(
+  )}
+  catch(e){
+      console.log(e.message)
+      res.json(e)
+  }
+}
+
 const getIncomebyId = async function(id){
   try{
-    var ope= await Income.findByPk(id/* , {
+    var ope= await Income.findByPk(id , {
        include:{
             model: Category,
             attributes: ["name"],
@@ -27,7 +37,7 @@ const getIncomebyId = async function(id){
                 attributes: [],
             }
         } 
-  } */)
+  } )
   return (ope)
   }catch(e){
         console.log(e.message)
@@ -35,7 +45,7 @@ const getIncomebyId = async function(id){
     }
 }
 
-const createIncome = async function(concept, amount, date, type /*, category */){
+const createIncome = async function(concept, amount, date, type , category ){
     try{    
     var income = await Income.create({
             concept: concept,
@@ -43,21 +53,22 @@ const createIncome = async function(concept, amount, date, type /*, category */)
             date: date,
             type: type
         })
-        /* income.addCategory(category) */
+        income.addCategory(category) 
     return income}
     catch(e){
         console.log(e)
     }
 }
 
-const createCategories = async function(categories){
+const createCategories = async function(category){
   try{
-  for(let i=0; i<categories.length; i++){
-  var category = await Category.create({
-          name: categories[i],
+    const catEx = await Category.findByPk(category)
+    if(catEx){ return catEx}
+  else {var cate = await Category.create({
+          name: category,
       })
     }
-    res.send("Categories created")}
+    return cate}
   catch(e){
       console.log(e)
   }
@@ -116,13 +127,13 @@ try{
 const deleteIncome = async function(id){
     try{
         var income = await Income.findByPk(id, {
-            /* include:{
+            include:{
                 model:Category,
                 attributes: ["name"],
                 through: {
                     attributes:[]
                 }
-            } */
+            } 
         })
         await income.destroy()
         res.send("The operation has been deleted")
@@ -133,4 +144,4 @@ const deleteIncome = async function(id){
     }
 }
 
-module.exports = {getIncomes, getIncomebyId, createIncome, modifyIncome, deleteIncome}
+module.exports = {getIncomes, getIncomebyId, createIncome, modifyIncome, deleteIncome, createCategories, getCategories}
