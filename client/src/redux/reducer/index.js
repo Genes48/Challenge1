@@ -41,7 +41,11 @@ function rootReducer(state=initialState, {type, payload}){
                 opeType=allOp
             }
             else{opeType=allOp.filter(e=>e.type===payload)}
-            if(opeType.length===0) { alert(`You have no ${payload}s`)
+            if(opeType.length===0) { Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'There are no operations with this type',
+              })
             return{
                 ...state,
             }}
