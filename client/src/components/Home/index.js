@@ -10,7 +10,7 @@ import Button from 'react-bootstrap/Button';
 export default function Home() {
 
   const dispatch = useDispatch();
-  var operations = useSelector((state)=>state.operations);
+  var operations = useSelector((state)=>state.operationsBack);
   var balance = useSelector((state)=>state.balance);
   let lastOp = []
   if(operations.length>=10){
@@ -46,7 +46,7 @@ export default function Home() {
             fluid="sm"
             as="li"
             className="d-flex justify-content-between align-items-start"
-            key={a.id}><Card conc={a.concept} amo={a.amount} dat={a.date} type={a.type} key={a.id}></Card></ListGroup.Item>
+            key={a.id}><Card conc={a.concept} amo={a.amount} dat={a.date} type={a.type} key={a.id} category={a.categories}></Card></ListGroup.Item>
           )
         })}</ListGroup>
         :<div>

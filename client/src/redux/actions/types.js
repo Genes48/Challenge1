@@ -7,3 +7,4 @@ export const GET_BALANCE = "GET_BALANCE";
 export const FILTER_TYPE = "FILTER_TYPE";
 export const FILTER_CATEGORY = "FILTER_CATEGORY";
 export const GET_CATEGORIES = "GET_CATEGORIES";
+export const CLEAR = "CLEAR"

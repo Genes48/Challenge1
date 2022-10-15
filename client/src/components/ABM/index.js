@@ -1,10 +1,9 @@
 import React , { useEffect} from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
-import { getOperations, getCategories, filterType, filterCategory } from "../../redux/actions";
+import { getOperations, getCategories, filterType, filterCategory} from "../../redux/actions";
 import CardABM from "../CardABM";
 import Button from 'react-bootstrap/Button';
-import ListGroup from 'react-bootstrap/ListGroup';
 import CardGroup from 'react-bootstrap/CardGroup';
 
 
@@ -33,6 +32,7 @@ export default function ABM() {
 
   return (
     <div>
+      <br></br>
       <h1>ABM</h1>
       <div class="container">
       <div class="col justify-content-around">
@@ -40,26 +40,23 @@ export default function ABM() {
       <Link to="/form"><Button class="col-4" variant="outline-light">Add new operation</Button></Link>
       </div>
       </div>
+      <br></br>
       <div>
-        <h4>Filter by type:   
-          <h5>
-        <select onChange={e=>handleFilterTypes(e)}>
+        <h4>Filter by type:
+        <select onChange={e=>handleFilterTypes(e)}>   
           <option value="All">All</option>
           <option value="Income">Income</option>
           <option value="Outcome">Outcome</option>
         </select>
-        </h5>
         </h4>
       </div>
       <div>
         <h4>Filter by Category:   
-          <h5>
         <select onChange={e=>handleFilterCategory(e)}>
           <option value="All">All</option>
           {categories.map(e=>{
             return (<option value={e.name} key={e.id}>{e.name}</option>)})}
         </select>
-        </h5>
         </h4>
       </div>
       <h3>All operations</h3>

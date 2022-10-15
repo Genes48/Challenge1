@@ -1,5 +1,5 @@
 import axios from "axios";
-import { GET_OPERATIONS, GET_OPERATION, GET_CATEGORIES, FILTER_CATEGORY, CREATE_OPERATION, MODIFY_OPERATION, DELETE_OPERATION, GET_BALANCE, FILTER_TYPE } from "./types";
+import { GET_OPERATIONS, GET_OPERATION, GET_CATEGORIES, FILTER_CATEGORY, GET_BALANCE, FILTER_TYPE } from "./types";
 
 export function getOperations(){
     return async function (dispatch){

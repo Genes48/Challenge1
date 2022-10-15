@@ -2,15 +2,19 @@ import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { createOperation, getCategories, modifyOperation, getOperationsiD, deleteOperation } from '../../redux/actions';
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2';
+import Button from 'react-bootstrap/Button';
+import './Form.css';
 
 export default function Form() {
-    const { id } = useParams()
+    const { id, category } = useParams()
     
     const dispatch = useDispatch()
     var detail = useSelector((state) => state.operation)
     var categories = useSelector((state) => state.categories)
     console.log("soy el detail", detail)
+    var d = new Date(detail.date)
+    
 
     const[disabled, setDisabled]=useState(true)
     const[disables, setDisables]=useState(true)
@@ -138,7 +142,7 @@ export default function Form() {
         })
         Swal.fire({
             icon: 'success',
-            title: 'Operation created',
+            title: 'Operation modified',
             confirmButtonText: 'Ok'
           }).then((result) => {
             if (result.isConfirmed) {
@@ -181,30 +185,35 @@ export default function Form() {
 
   return (
     <div>
-         <Link to="/abm"><button>Cancel</button></Link>
+        <br></br>
+         <Link to="/abm"><Button class="col-4" variant="outline-light">Cancel</Button></Link>
+         <br></br>
          {id?<div>
-            <button onClick={()=>handleClick(id)}>Delete Operation</button>
+            <br></br>
+            <Button class="col-4" variant="outline-light" onClick={()=>handleClick(id)}>Delete Operation</Button>
             </div>:<span></span>}
+            <br></br>
          <form>
             <div>
-            {id?<div><span>Previous Concept: {detail.concept}</span></div>:<span></span>}
-            {id?<label>New Concept: </label>:<label>Concept: </label>}
+            {id?<div><span>Previous Concept: </span><span className='Prev'>{detail.concept}</span></div>:<span></span>}
+            {id?<label>New Concept: </label>:<label>Concept:</label>}
                 <input type="text" value={input.concept} name="concept" onChange={(e)=>{handleChange(e);validateConcept(e)}}/>
-                <div>{error.concept===""?<span></span>:<span>{error.concept}</span>}</div>
+                <div>{error.concept===""?<span></span>:<span className='Error'>{error.concept}</span>}</div>
             </div>
             <div>
-            {id?<div><span>Previous Amount: {detail.amount}</span></div>:<span></span>}
-            {id?<label>New Amount: </label>:<label>Amount: </label>}
+            {id?<div><span>Previous Amount: </span><span className='Prev'>${detail.amount}</span></div>:<span></span>}
+            {id?<label>New Amount: $</label>:<label>Amount: $</label>}
                 <input type="number" value={input.amount} name="amount" onChange={(e)=>{handleChange(e);validateAmount(e)}}/>
-                <div>{error.amount===""?<span></span>:<span>{error.amount}</span>}</div>
+                <div>{error.amount===""?<span></span>:<span className='Error'>{error.amount}</span>}</div>
             </div>
             <div>
-                {id?<div><span>Previous Date: {detail.date}</span></div>:<span></span>}
+                {id?<div><span>Previous Date: </span><span className='Prev'>{d.getDate()}/{d.getMonth()+1}/{d.getFullYear()}</span></div>:<span></span>}
                 {id?<label>New Date: </label>:<label>Date: </label>}
                 <input type="date" value={input.date} name="date" onChange={(e)=>{handleChange(e);validateDate(e)}}/>
-                <div>{error.date===""?<span></span>:<span>{error.date}</span>}</div>
+                <div>{error.date===""?<span></span>:<span className='Error'>{error.date}</span>}</div>
             </div>
-            <label className='Label'>Category:</label>
+            {id?<div><span>Previous Category:  </span><span className='Prev'>{category} </span></div>:<span></span>}
+            {id?<label>New Category: </label>:<label>Category: </label>}
             <select className='Select' onChange={(e)=>{handleSelect(e)}}>
                 {categories.map((el)=>(
                     <option value={el.name}>{el.name}</option>
@@ -217,10 +226,10 @@ export default function Form() {
                 <input type="radio" name="type" value="Outcome" onChange={(e)=>{handleCheck(e)}}/>Outcome
             </div>}
             {id?<div>
-            <button disabled={disables} type="submit" onClick={(e)=>handleSubmit2(e)}>Modify Operation</button>
+            <Button class="col-4" variant="outline-light" disabled={disables} type="submit" onClick={(e)=>handleSubmit2(e)}>Modify Operation</Button>
             </div>:
             <div>
-            <button disabled={disabled} type="submit" onClick={(e)=>handleSubmit(e)}>Create Operation</button>
+            <Button class="col-4" variant="outline-light" disabled={disabled} type="submit" onClick={(e)=>handleSubmit(e)}>Create Operation</Button>
             </div>}
          </form>
     </div>
