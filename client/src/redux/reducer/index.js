@@ -1,4 +1,5 @@
-import { GET_OPERATIONS, GET_OPERATION, CREATE_OPERATION, MODIFY_OPERATION, DELETE_OPERATION, GET_BALANCE, FILTER_TYPE } from "../actions/types";
+import { GET_OPERATIONS, GET_OPERATION, GET_CATEGORIES, CREATE_OPERATION, MODIFY_OPERATION, DELETE_OPERATION, GET_BALANCE, FILTER_TYPE, FILTER_CATEGORY } from "../actions/types";
+import Swal from 'sweetalert2'
 
 const initialState={
     operations: [],
@@ -29,6 +30,10 @@ function rootReducer(state=initialState, {type, payload}){
             ...state,
             operation: payload
         }
+        case GET_CATEGORIES: return{
+            ...state,
+            categories: payload
+        }
         case FILTER_TYPE:
             const allOp=state.operationsBack
             let opeType=[]
@@ -43,6 +48,25 @@ function rootReducer(state=initialState, {type, payload}){
             return{
                 ...state,
                 operations: opeType
+            }
+        case FILTER_CATEGORY:
+            const allOp2=state.operationsBack
+            let opeCat=[]
+            if(payload==="All"){
+                opeCat=allOp2
+            }
+            else{opeCat=allOp2.filter(e=>e.categories[0].name===payload   )}
+            if(opeCat.length===0) { Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'There are no operations with this category',
+              })
+            return{
+                ...state,
+            }}
+            return{
+                ...state,
+                operations: opeCat
             }
         case CREATE_OPERATION: return{
             ...state,

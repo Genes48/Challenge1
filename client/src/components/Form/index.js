@@ -1,18 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { createOperation, modifyOperation, getOperationsiD, deleteOperation } from '../../redux/actions';
+import { createOperation, getCategories, modifyOperation, getOperationsiD, deleteOperation } from '../../redux/actions';
+import Swal from 'sweetalert2'
 
 export default function Form() {
     const { id } = useParams()
     
     const dispatch = useDispatch()
     var detail = useSelector((state) => state.operation)
+    var categories = useSelector((state) => state.categories)
     console.log("soy el detail", detail)
 
     const[disabled, setDisabled]=useState(true)
     const[disables, setDisables]=useState(true)
      useEffect(()=>{
+        dispatch(getCategories())
         dispatch(getOperationsiD(id))
       },[dispatch, id]) 
 
@@ -21,16 +24,16 @@ export default function Form() {
         amount:"",
         date:"",
         type:"",
-        /* category:"" */
+        category:"None"
     })
     const [error, setError] = useState({
         concept:"",
         amount:"",
         date:"",
         type:"",
-        /* category:"" */
+        category:""
     })
-    /* var detail = useSelector(state=>state.operation) */
+   
 
       
     useEffect(()=>{
@@ -68,7 +71,7 @@ export default function Form() {
         e.preventDefault();
         setInput({
             ...input,
-            type:e.target.value
+            category:e.target.value
         })
     }
     function handleCheck(e){
@@ -80,32 +83,68 @@ export default function Form() {
         }
     }
     function handleClick(id){
-        dispatch(deleteOperation(id))
-        alert("Operation deleted")
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+          }).then((result) => {
+            if (result.isConfirmed) {
+            dispatch(deleteOperation(id))
+            Swal.fire({
+                icon: 'success',
+                title: 'Operation deleted',
+                confirmButtonText: 'Ok'
+              }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.replace("http://localhost:3000/abm") 
+                } 
+              })
+            }
+          })
     }
     function handleSubmit(e){
         e.preventDefault();
         dispatch(createOperation(input))
-        alert("Operation added")
         setInput({
             concept:"",
             amount:"",
             date:"",
             type:"",
-            /* category:"" */
+            category:"None"
         })
+        Swal.fire({
+            icon: 'success',
+            title: 'Operation created',
+            confirmButtonText: 'Ok'
+          }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.replace("http://localhost:3000/abm") 
+            } 
+          })
     }
     function handleSubmit2(e){
         e.preventDefault();
         dispatch(modifyOperation(id, input))
-        alert("Operation modified")
         setInput({
             concept:"",
             amount:"",
             date:"",
             type:"",
-            /* category:"" */
+            category:"None"
         })
+        Swal.fire({
+            icon: 'success',
+            title: 'Operation created',
+            confirmButtonText: 'Ok'
+          }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.replace("http://localhost:3000/abm") 
+            } 
+          })
     }
 
     function validateConcept(e){
@@ -165,6 +204,12 @@ export default function Form() {
                 <input type="date" value={input.date} name="date" onChange={(e)=>{handleChange(e);validateDate(e)}}/>
                 <div>{error.date===""?<span></span>:<span>{error.date}</span>}</div>
             </div>
+            <label className='Label'>Category:</label>
+            <select className='Select' onChange={(e)=>{handleSelect(e)}}>
+                {categories.map((el)=>(
+                    <option value={el.name}>{el.name}</option>
+                ))}
+                </select>
             {id?<span></span>:
             <div>
                 <label>Type: </label>
