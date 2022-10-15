@@ -112,10 +112,11 @@ try{
               id: id,
             },
           });
+        const inc = await income.setCategories(null)
         const cat = await Category.findOne({
             where: { name: category },
           });
-        await income.setCategory(cat);
+        await income.addCategories(cat);
     }
     res.send("The operation has been updated");
     }
