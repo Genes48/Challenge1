@@ -50,7 +50,7 @@ export default function Home() {
           )
         })}</ListGroup>
         :<div>
-          <h2>You don´t have operations yet</h2>
+          <h2>You don´t have operations yet, create them in the ABM</h2>
           </div>}
     </div>
   )
